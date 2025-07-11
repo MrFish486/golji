@@ -7,7 +7,7 @@ public class gol {
 		for (int i = 0; i < 1000; i ++) {
 			System.out.print("\033[H\033[2J");
 			System.out.flush();
-			main.render();
+			main.render(1, i);
 			main.tick();
 			TimeUnit.MILLISECONDS.sleep(50);
 		}
@@ -91,28 +91,49 @@ class game {
 		}
 		return life;
 	}
-	public void render () {
-		System.out.println("┌" + "─".repeat(this.width) + "┬" +  "─".repeat(String.valueOf(this.width * this.height).length()) + "┐");
-		for (int x = 0; x < this.width; x ++) {
-			System.out.print("│");
-			for (int y = 0; y < this.height; y ++) {
-				if (this.board[x][y] == 1) {
-					System.out.print("█");
-				} else if (this.board[x][y] == 0) {
-					System.out.print(" ");
-				} else {
-					System.out.print("?");
+	public void render (int view, int days) {
+		if (view == 0) {
+			System.out.println("┌" + "─".repeat(this.width) + "┬" +  "─".repeat(String.valueOf(this.width * this.height).length()) + "┐");
+			for (int x = 0; x < this.width; x ++) {
+				System.out.print("│");
+				for (int y = 0; y < this.height; y ++) {
+					if (this.board[x][y] == 1) {
+						System.out.print("█");
+					} else if (this.board[x][y] == 0) {
+						System.out.print(" ");
+					} else {
+						System.out.print("?");
+					}
 				}
+				System.out.print("│");
+				if (x == 0) {
+					System.out.print(String.format("%" + String.valueOf(this.width * this.height).length() + "s", String.valueOf(this.life())));
+				} else {
+					System.out.print(" ".repeat(String.valueOf(this.width * this.height).length()));
+				}
+				System.out.print("│");
+				System.out.println();
 			}
-			System.out.print("│");
-			if (x == 0) {
-				System.out.print(String.format("%" + String.valueOf(this.width * this.height).length() + "s", String.valueOf(this.life())));
-			} else {
-				System.out.print(" ".repeat(String.valueOf(this.width * this.height).length()));
+			System.out.println("└" + "─".repeat(this.width) + "┴" + "─".repeat(String.valueOf(this.width * this.height).length()) + "┘");
+		} else if (view == 1) {
+			System.out.println("┌" + "─".repeat(this.width) + "┐");
+			System.out.println("│" + String.format("%" + String.valueOf(this.width) + "s", "Life:" + String.valueOf(this.life()) + ", Days:" + String.valueOf(days)) + "│");
+			System.out.println("├" + "─".repeat(this.width) + "┤");
+			for (int x = 0; x < this.width; x ++) {
+				System.out.print("│");
+				for (int y = 0; y < this.height; y ++) {
+					if (this.board[x][y] == 1) {
+						System.out.print("█");
+					} else if (this.board[x][y] == 0) {
+						System.out.print(" ");
+					} else {
+						System.out.print("?");
+					}
+				}
+				System.out.print("│");
+				System.out.println();
 			}
-			System.out.print("│");
-			System.out.println();
+			System.out.println("└" + "─".repeat(this.width) + "┘");
 		}
-		System.out.println("└" + "─".repeat(this.width) + "┴" + "─".repeat(String.valueOf(this.width * this.height).length()) + "┘");
 	}
 }
