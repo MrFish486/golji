@@ -2,13 +2,25 @@ import java.util.concurrent.TimeUnit;
 import java.util.Random;
 
 public class gol {
-	public static void main (String[] args) throws InterruptedException {
-		game main = new game(50, 50, 2);
-		printer.clear();
-		for (int i = 0; i < 1000; i ++) {
-			main.render();
-			main.tick();
-			TimeUnit.MILLISECONDS.sleep(20);
+	public static void main (String[] args) throws InterruptedException, ArrayIndexOutOfBoundsException {
+		if (args.length != 3) {
+			System.out.println("Arg 1: Height,\nArg 2: Width\nArg 3: Generations");
+			return;
+		}
+		game main = new game(Integer.parseInt(args[0]), Integer.parseInt(args[1]), 2);
+		int iterations = Integer.parseInt(args[2]);
+		if (iterations == -1) {
+			while (true) {
+				main.render();
+				main.tick();
+				TimeUnit.MILLISECONDS.sleep(20);
+			}
+		} else {
+			for (int i = 0; i < Integer.parseInt(args[2]); i ++) {
+				main.render();
+				main.tick();
+				TimeUnit.MILLISECONDS.sleep(20);
+			}
 		}
 	}
 }
